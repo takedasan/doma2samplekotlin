@@ -4,7 +4,7 @@ import org.seasar.doma.Entity
 import org.seasar.doma.jdbc.entity.NamingType
 
 @Entity(immutable = true, naming = NamingType.SNAKE_UPPER_CASE)
-data class AddressSearchEntity(
+data class AddressReadEntity(
         val personId: Int,
         val name: String,
         val sexType: String,

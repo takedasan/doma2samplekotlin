@@ -3,6 +3,8 @@ package jp.takeda.doma2sample.domain.service
 import jp.takeda.doma2sample.dao.AddressDomaDao
 import jp.takeda.doma2sample.dto.request.insert.WriteAddressRequest
 import jp.takeda.doma2sample.dto.request.insert.WriteAddressRequestConverter
+import jp.takeda.doma2sample.dto.response.find.FindAddressConverter
+import jp.takeda.doma2sample.dto.response.find.FindAddressResponse
 import jp.takeda.doma2sample.dto.response.insert.WriteAddressResponse
 import jp.takeda.doma2sample.dto.response.insert.WriteAddressResponseConverter
 import jp.takeda.doma2sample.dto.response.search.SelectAddressListConverter
@@ -13,10 +15,14 @@ import org.springframework.stereotype.Service
 class AddressService(
         private val addressDomaDao: AddressDomaDao
 ) {
+    fun search(): SelectAddressListResponse {
+        val results = addressDomaDao.search()
+        return SelectAddressListConverter.of(results)
+    }
 
-    fun selectById(addressId: Int): SelectAddressListResponse {
-        val result = addressDomaDao.search()
-        return SelectAddressListConverter.of(result)
+    fun find(addressId: Int): FindAddressResponse {
+        val result = addressDomaDao.find(addressId)
+        return FindAddressConverter.of(result)
     }
 
     fun insert(request: WriteAddressRequest): WriteAddressResponse {
