@@ -4,7 +4,6 @@ import jp.takeda.doma2sample.dao.AddressDomaDao
 import jp.takeda.doma2sample.dto.request.insert.WriteAddressRequest
 import jp.takeda.doma2sample.dto.request.insert.WriteAddressRequestConverter
 import jp.takeda.doma2sample.dto.response.find.FindAddressConverter
-import jp.takeda.doma2sample.dto.response.find.FindAddressResponse
 import jp.takeda.doma2sample.dto.response.insert.WriteAddressResponse
 import jp.takeda.doma2sample.dto.response.insert.WriteAddressResponseConverter
 import jp.takeda.doma2sample.dto.response.search.SelectAddressListConverter
@@ -20,9 +19,15 @@ class AddressService(
         return SelectAddressListConverter.of(results)
     }
 
-    fun find(addressId: Int): FindAddressResponse {
+    fun find(addressId: Int): FindAddressResult {
         val result = addressDomaDao.find(addressId)
-        return FindAddressConverter.of(result)
+
+        // nullだった場合は結果なしとして扱う
+        return if (result == null) {
+            FindAddressResult.NotFound
+        } else {
+            FindAddressResult.Found(FindAddressConverter.of(result))
+        }
     }
 
     fun insert(request: WriteAddressRequest): WriteAddressResponse {

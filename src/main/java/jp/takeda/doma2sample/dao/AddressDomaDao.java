@@ -16,7 +16,7 @@ public interface AddressDomaDao {
     @Select
     List<AddressReadEntity> search();
 
-    @Select(ensureResult = true)
+    @Select
     AddressReadEntity find(int addressId);
 
     @Insert
