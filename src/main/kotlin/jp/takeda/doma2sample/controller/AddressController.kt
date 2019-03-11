@@ -6,7 +6,6 @@ import jp.takeda.doma2sample.dto.request.insert.WriteAddressRequest
 import jp.takeda.doma2sample.dto.response.find.FindAddressResponse
 import jp.takeda.doma2sample.dto.response.insert.WriteAddressResponse
 import jp.takeda.doma2sample.dto.response.search.SelectAddressListResponse
-import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
@@ -27,7 +26,7 @@ class AddressController(
 
         return when (result) {
             is FindAddressResult.Found -> ResponseEntity.ok(result.response)
-            is FindAddressResult.NotFound -> ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).build<FindAddressResponse>()
+            is FindAddressResult.NotFound -> ResponseEntity.notFound().build()
         }
     }
 
